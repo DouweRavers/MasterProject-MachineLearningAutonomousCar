@@ -10,6 +10,7 @@ public class CarBase : MonoBehaviour {
 	public WheelCollider wheelLF, wheelRF, wheelLB, wheelRB;
 	public Transform wheelVisualLF, wheelVisualRF, wheelVisualLB, wheelVisualRB;
 	public AudioSource startMotor, idle, gasLowRPM, engineOut;
+	public float steerValue { get { return steering; } }
 	Rigidbody body;
 	float steering;
 	float maxSpeed = 0, minSpeed = 0;

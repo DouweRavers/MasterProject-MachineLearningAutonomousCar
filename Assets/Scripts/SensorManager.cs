@@ -26,6 +26,17 @@ public class SensorManager : MonoBehaviour {
 		}
 	}
 
+	public float[] angles {
+		get {
+			RayPerceptionInput rayPerceptionInput = rayPerceptionSensorComponent3D.GetRayPerceptionInput();
+			float[] values = new float[rayPerceptionInput.Angles.Count];
+			for (int i = 0; i < rayPerceptionInput.Angles.Count; i++) {
+				values[i] = rayPerceptionInput.Angles[i];
+			}
+			return values;
+		}
+	}
+
 	void Start() {
 		rayPerceptionSensorComponent3D = GetComponent<RayPerceptionSensorComponent3D>();
 	}
