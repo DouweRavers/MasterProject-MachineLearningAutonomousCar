@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="256"
+   height="256"
+   viewBox="0 0 67.733333 67.733333"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   sodipodi:docname="record.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     units="px"
+     width="2304px"
+     inkscape:zoom="2.215233"
+     inkscape:cx="151.45134"
+     inkscape:cy="145.13146"
+     inkscape:window-width="1920"
+     inkscape:window-height="991"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient3602">
+      <stop
+         style="stop-color:#ff8080;stop-opacity:1"
+         offset="0"
+         id="stop3598" />
+      <stop
+         style="stop-color:#550000;stop-opacity:1"
+         offset="1"
+         id="stop3600" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient3051">
+      <stop
+         style="stop-color:#550000;stop-opacity:1"
+         offset="0"
+         id="stop3047" />
+      <stop
+         style="stop-color:#d40000;stop-opacity:1"
+         offset="1"
+         id="stop3049" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient1036">
+      <stop
+         style="stop-color:#ffd5d5;stop-opacity:1"
+         offset="0"
+         id="stop1032" />
+      <stop
+         style="stop-color:#ff8080;stop-opacity:1"
+         offset="1"
+         id="stop1034" />
+    </linearGradient>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient1036"
+       id="radialGradient1038"
+       cx="34.120026"
+       cy="33.951122"
+       fx="34.120026"
+       fy="33.951122"
+       r="33.866667"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.0247419,-0.0071818,0.00865594,1.2345783,-1.138063,-7.7191518)" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3051"
+       id="radialGradient3053"
+       cx="33.613297"
+       cy="33.951122"
+       fx="33.613297"
+       fy="33.951122"
+       r="16.933334"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.00997506,0.94763086,-0.99994461,0.01052536,67.227247,1.7407776)" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3602"
+       id="radialGradient3604"
+       cx="33.866665"
+       cy="33.866665"
+       fx="33.866665"
+       fy="33.866665"
+       r="23.58423"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.4102292,0.00703092,-0.00718218,1.4405703,-13.64986,-15.15876)" />
+  </defs>
+  <g
+     inkscape:label="Laag 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <circle
+       style="fill:url(#radialGradient1038);fill-opacity:1;stroke:#f9f9f9;stroke-width:0.616162;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0;paint-order:stroke fill markers"
+       id="path848"
+       cx="33.866665"
+       cy="33.866665"
+       r="33.558586"
+       inkscape:export-filename="C:\Users\douwe\Documents\Projects_Local\MachineLearningAutonomousCar\Assets\Textures\RecordButtonBackground.png"
+       inkscape:export-xdpi="65"
+       inkscape:export-ydpi="65" />
+    <circle
+       style="fill:url(#radialGradient3053);fill-opacity:1;stroke:#f9f9f9;stroke-width:0.308081;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0;paint-order:stroke fill markers"
+       id="path848-3"
+       cx="33.866669"
+       cy="33.866669"
+       r="16.779293"
+       inkscape:export-filename="C:\Users\douwe\Documents\Projects_Local\MachineLearningAutonomousCar\Assets\Textures\RecordButtonIcon.png"
+       inkscape:export-xdpi="65"
+       inkscape:export-ydpi="65" />
+    <circle
+       style="fill:none;fill-opacity:1;stroke:url(#radialGradient3604);stroke-width:5.29166667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+       id="path848-6"
+       cx="33.866665"
+       cy="33.866665"
+       r="20.938396"
+       inkscape:export-filename="C:\Users\douwe\Documents\Projects_Local\MachineLearningAutonomousCar\Assets\Textures\RecordButtonIcon.png"
+       inkscape:export-xdpi="65"
+       inkscape:export-ydpi="65" />
+  </g>
+</svg>
