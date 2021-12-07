@@ -1,0 +1,5 @@
+{
+	"editor.defaultFormatter": "KevinRose.vsc-python-indent",
+	"python.formatting.provider": "black",
+	"editor.insertSpaces": false
+}

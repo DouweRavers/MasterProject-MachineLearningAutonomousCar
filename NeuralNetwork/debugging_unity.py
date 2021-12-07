@@ -4,8 +4,9 @@ import csv
 
 host, port = "127.0.0.1", 25001
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+print("Start searching")
 sock.connect((host, port))
-
+print("connect")
 with open('data.csv') as csvDataFile:
     csvReader = csv.reader(csvDataFile, delimiter=";")
     for row in csvReader:

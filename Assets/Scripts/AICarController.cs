@@ -10,12 +10,18 @@ using UnityEngine;
 public class AICarController : MonoBehaviour {
 	SensorManager sensor;
 	CarBase car;
-	Thread pythonThread;
+	static Thread pythonThread;
+	static TcpClient client;
+	static TcpListener listener;
 	bool pythonCommunication = false;
 	float[] visionSensorValues;
 	float calculatedSteer = 0f;
 
 	void Start() {
+		if (UI.player != 1) {
+			Destroy(gameObject);
+			return;
+		}
 		car = GetComponent<CarBase>();
 		sensor = GetComponentInChildren<SensorManager>();
 		ConnectToPython();
@@ -33,25 +39,26 @@ public class AICarController : MonoBehaviour {
 		car.steerCar(calculatedSteer);
 	}
 
-	void Destroy() {
-		DisconnectPython();
-	}
-
 	public void ConnectToPython() {
+		if (pythonThread != null) pythonThread.Abort();
 		ThreadStart ts = new ThreadStart(StartThread);
 		pythonThread = new Thread(ts);
 		pythonThread.Start();
 	}
 
-	public void DisconnectPython() {
-		pythonCommunication = false;
-	}
-
 	void StartThread() {
+		if (client != null) client.Close();
+		if (listener != null) listener.Stop();
+		client = null;
+		listener = null;
 		IPAddress localAdd = IPAddress.Parse("127.0.0.1");
-		TcpListener listener = new TcpListener(IPAddress.Any, 25001);
+		listener = new TcpListener(localAdd, 25001);
 		listener.Start();
-		TcpClient client = listener.AcceptTcpClient();
+		print("start listener");
+		client = listener.AcceptTcpClient();
+		print("found client");
+
+
 		pythonCommunication = true;
 		while (pythonCommunication) {
 			if (!client.Connected) break;
@@ -80,7 +87,7 @@ public class AICarController : MonoBehaviour {
 		int messageBufferSize = networkStream.Read(messageBuffer, 0, client.ReceiveBufferSize);
 		string receivedMessage = Encoding.UTF8.GetString(messageBuffer, 0, messageBufferSize);
 
-		if (receivedMessage != null) {
+		if (receivedMessage != null || receivedMessage.Length == 0) {
 			calculatedSteer = float.Parse(receivedMessage.Trim('{', '}').Replace('.', ','));
 			return false;
 		} else return true;

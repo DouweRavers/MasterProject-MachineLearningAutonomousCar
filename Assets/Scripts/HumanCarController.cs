@@ -8,6 +8,7 @@ public class HumanCarController : MonoBehaviour {
 	CarBase car;
 	public float steerValue = 0;
 	void Start() {
+		if (UI.player != 0) Destroy(gameObject);
 		car = GetComponent<CarBase>();
 	}
 

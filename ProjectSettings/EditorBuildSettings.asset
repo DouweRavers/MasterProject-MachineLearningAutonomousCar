@@ -11,4 +11,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CourseOne.unity
     guid: 60f643a51c73ea04780b538b190c5710
+  - enabled: 1
+    path: Assets/Scenes/CourseTwo.unity
+    guid: d6127af032b4d604d964f3b22aa98d12
+  - enabled: 1
+    path: Assets/Scenes/CourseThree.unity
+    guid: 590a40aa351727c4981ead98bd3819a5
+  - enabled: 1
+    path: Assets/Scenes/CourseFour.unity
+    guid: ce1ade6622aee5544b0990783102145d
+  - enabled: 1
+    path: Assets/Scenes/CourseFive.unity
+    guid: f3c35f9007eed02439eb04a798f7d62d
   m_configObjects: {}
