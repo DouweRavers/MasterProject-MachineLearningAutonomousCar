@@ -93,6 +93,7 @@ class NeuralNetwork:
         nn_params = np.concatenate([theta1.ravel(), theta2.ravel()], axis=0)
         return nn_params
 
+    #calculating steering values using real-time data from unity
     def calculate(self, nn_params, X):
         theta1 = np.reshape(nn_params[:self.hidden_layer_size * (self.input_layer_size + 1)],
                             (self.hidden_layer_size, (self.input_layer_size + 1)))
@@ -113,21 +114,3 @@ class NeuralNetwork:
         # print(a_3.shape)
         return a_3[0, 0]
 
-    def calculate2(self, nn_params, X):
-        theta1 = np.reshape(nn_params[:self.hidden_layer_size * (self.input_layer_size + 1)],
-                            (self.hidden_layer_size, (self.input_layer_size + 1)))
-
-        theta2 = np.reshape(nn_params[(self.hidden_layer_size * (self.input_layer_size + 1)):],
-                            (self.num_labels, (self.hidden_layer_size + 1)))
-        X = np.array(X)
-        X = X.reshape(1, X.size)
-        m = X.shape[0]
-        # print(X.shape)
-        a_1 = np.concatenate([np.ones((m, 1)), X], axis=1)
-        # print(a_1.shape)
-        z_2 = np.matmul(a_1, theta1.transpose())
-        a_2 = np.concatenate([np.ones((m, 1)), sigmoid(z_2)], axis=1)
-        # print(a_2.shape)
-        z_3 = np.matmul(a_2, theta2.transpose())
-        a_3 = sigmoid(z_3)
-        return a_3
