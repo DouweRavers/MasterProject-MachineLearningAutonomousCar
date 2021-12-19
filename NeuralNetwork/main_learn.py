@@ -23,7 +23,7 @@ Y = Y * 0.5 + 0.5
 X = np.array(X).astype(float)
 
 #random initializaiton of parameters
-initial_nn_params = neural_network.randInitializeWeights()
+initial_nn_params = neural_network.randInitializeWeight()
 options = {'maxiter': 100}
 lambda_ = 1
 

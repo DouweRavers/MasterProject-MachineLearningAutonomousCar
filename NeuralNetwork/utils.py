@@ -1,7 +1,9 @@
 import numpy as np
 from scipy import optimize
 
-from main_evaluate import costFunction
+import neural_network as nn
+
+neural_network = nn.NeuralNetwork(21, 10, 1)
 
 #other help functions
 def featureNormalize(X):
@@ -33,4 +35,23 @@ def trainLinearReg(linearRegCostFunction, X, y, lambda_ = 0.0, maxiter=200):
 
     # Minimize using scipy
     res = optimize.minimize(costFunction, initial_theta, jac=True, method='TNC', options=options)
+    return res.x
+
+def trainLinearReg2(cf, X, y, lambda_ = 0.0, maxiter=100):
+    #random initializaiton of parameters
+    initial_nn_params = neural_network.randInitializeWeights()
+    
+    options = {'maxiter': maxiter}
+    #lambda_ = 1
+
+    #costFunction = lambda t: cf(X, y, t, lambda_)
+    def costFunction(initial_nn_params): return neural_network.costfunction(
+    initial_nn_params, X, y, lambda_)
+
+    #optimize parameters
+    res = optimize.minimize(costFunction,
+                            initial_nn_params,
+                            jac=True,
+                            method='TNC',
+                            options=options)
     return res.x

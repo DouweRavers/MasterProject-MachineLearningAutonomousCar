@@ -4,7 +4,7 @@ import csv
 from scipy import optimize
 
 import neural_network as nn
-import evaluate_NN as enn
+import evaluate_NN
 
 neural_network = nn.NeuralNetwork(21, 10, 1)
 
@@ -23,7 +23,7 @@ Y = np.array(Y).astype(float)
 Y = Y * 0.5 + 0.5
 X = np.array(X).astype(float)
 
-#random initializaiton of parameters
+""" #random initializaiton of parameters
 initial_nn_params = neural_network.randInitializeWeights()
 options = {'maxiter': 100}
 lambda_ = 1
@@ -37,9 +37,10 @@ res = optimize.minimize(costFunction,
                         initial_nn_params,
                         jac=True,
                         method='TNC',
-                        options=options)
+                        options=options) """
+
 
 #start evaluating
-evaluator = enn.EvaluateNN(X, Y, costFunction)
+evaluator = evaluate_NN.evaluateNN(X, Y, neural_network.costfunction)
 
 evaluator.learningCurvePlot()
