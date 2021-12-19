@@ -34,7 +34,7 @@ class EvaluateNN():
         error_val   = np.zeros(m)
 
         for i in range(1, m + 1):
-            theta_t = utils.trainLinearReg(self.costFunction, X_aug[:i], self.Y_train[:i], lambda_ = lambda_)
+            theta_t = utils.trainLinearReg2(self.costFunction, X_aug[:i], self.Y_train[:i], lambda_ = lambda_)
             error_train[i - 1], _ = self.costFunction(X_aug[:i], self.Y_train[:i], theta_t, lambda_ = 0)
             error_val[i - 1], _ = self.costFunction(Xval_aug, self.Y_val, theta_t, lambda_ = 0)
             
@@ -69,7 +69,7 @@ class EvaluateNN():
             X_poly, mu, sigma = self.featureNormalize(X_poly)
             X_poly = np.concatenate([np.ones((self.Y_train.size, 1)), X_poly], axis=1)
 
-            theta_t = self.trainLinearReg(self.costFunction, X_poly, self.Y_train, lambda_=lambda_, maxiter=55)
+            theta_t = utils.trainLinearReg2(self.costFunction, X_poly, self.Y_train, lambda_=lambda_, maxiter=55)
             error_val[i], _ = self.costFunction(self.X_val, self.Y_val, theta_t, lambda_ = 0)
             error_train[i], _ = self.costFunction(self.X_train, self.Y_train, theta_t, lambda_ = 0)
 
@@ -102,7 +102,7 @@ class EvaluateNN():
         lambda_ideal = 1
         for i in range(len(lambda_vec)):
             lambda_try = lambda_vec[i]
-            theta_t = self.trainLinearReg(self.costFunction, self.X_train, self.Y_train, lambda_ = lambda_try)
+            theta_t = utils.trainLinearReg2(self.costFunction, self.X_train, self.Y_train, lambda_ = lambda_try)
             error_train[i], _ = self.costFunction(self.X_train, self.Y_train, theta_t, lambda_ = 0)
             error_val[i], _ = self.costFunction(self.X_val, self.y_val, theta_t, lambda_ = 0)
             #choose lambda with min(error_val)
@@ -122,7 +122,7 @@ class EvaluateNN():
 
     #calculate test-error (evaluate model on a test set that was not used in any part of training)
     def testError(self, lambda_ideal):
-        theta_t = self.trainLinearReg(self.costFunction, self.X_train, self.Y_train, lambda_ = lambda_ideal)
+        theta_t = utils.trainLinearReg2(self.costFunction, self.X_train, self.Y_train, lambda_ = lambda_ideal)
         error_test = self.costFunction(self.X_test, self.Y_test, theta_t, lambda_ = 0)
 
         return error_test
@@ -134,40 +134,6 @@ class EvaluateNN():
 
     #after this: manual error analysis
 
-    
-    
-    
-    #other help functions
-    def featureNormalize(X):
-        mu = np.mean(X, axis=0)
-        X_norm = X - mu
-
-        sigma = np.std(X_norm, axis=0, ddof=1)
-        X_norm /= sigma
-        return X_norm
-
-    def polyFeatures(X, p):
-        X_poly = np.zeros((X.shape[0], p))
-
-        for i in range(p):
-            X_poly[:, i] = X[:, 0] ** (i + 1)
-
-        return X_poly
-
-    #find theta parameter
-    def trainLinearReg(linearRegCostFunction, X, y, lambda_ = 0.0, maxiter=200):
-        # Initialize Theta
-        initial_theta = np.zeros(X.shape[1])
-
-        # Create "short hand" for the cost function to be minimized
-        costFunction = lambda t: linearRegCostFunction(X, y, t, lambda_)
-
-        # Now, costFunction is a function that takes in only one argument
-        options = {'maxiter': maxiter}
-
-        # Minimize using scipy
-        res = optimize.minimize(costFunction, initial_theta, jac=True, method='TNC', options=options)
-        return res.x
 
 
     

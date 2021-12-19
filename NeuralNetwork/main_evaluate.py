@@ -23,7 +23,7 @@ Y = np.array(Y).astype(float)
 Y = Y * 0.5 + 0.5
 X = np.array(X).astype(float)
 
-#random initializaiton of parameters
+""" #random initializaiton of parameters
 initial_nn_params = neural_network.randInitializeWeights()
 options = {'maxiter': 100}
 lambda_ = 1
@@ -37,9 +37,10 @@ res = optimize.minimize(costFunction,
                         initial_nn_params,
                         jac=True,
                         method='TNC',
-                        options=options)
+                        options=options) """
+
 
 #start evaluating
-evaluator = enn.EvaluateNN(X, Y, costFunction)
+evaluator = enn.EvaluateNN(X, Y, nn.costFunction)
 
 evaluator.learningCurvePlot()
