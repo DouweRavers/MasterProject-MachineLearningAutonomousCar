@@ -93,6 +93,11 @@ class NeuralNetwork:
         nn_params = np.concatenate([theta1.ravel(), theta2.ravel()], axis=0)
         return nn_params
 
+    def randInitializeWeight(self, epsilon_init=0.12):
+        theta1 = np.random.rand(
+            self.hidden_layer_size, 1 + self.input_layer_size) * 2 * epsilon_init - epsilon_init
+        return theta1
+
     #calculating steering values using real-time data from unity
     def calculate(self, nn_params, X):
         theta1 = np.reshape(nn_params[:self.hidden_layer_size * (self.input_layer_size + 1)],

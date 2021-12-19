@@ -26,8 +26,8 @@ class evaluateNN():
         m = self.Y_train.size
 
         #prepare input data
-        X_aug = np.concatenate([np.ones((m, 1)), self.X_train], axis=1)
-        Xval_aug = np.concatenate([np.ones((self.Y_val.size, 1)), self.X_val], axis=1)
+        #X_aug = np.concatenate([np.ones((m, 1)), self.X_train], axis=1)
+        #Xval_aug = np.concatenate([np.ones((self.Y_val.size, 1)), self.X_val], axis=1)
 
         initial_nn_params = np.zeros(self.X_train.shape[1])
 
@@ -37,9 +37,10 @@ class evaluateNN():
         error_val   = np.zeros(m)
 
         for i in range(1, m + 1):
-            theta_t = utils.trainLinearReg2(self.costfunction, X_aug[:i], self.Y_train[:i], lambda_ = lambda_)
-            error_train[i - 1], _ = self.costFunction(X_aug[:i], self.Y_train[:i], theta_t, lambda_ = 0)
-            error_val[i - 1], _ = self.costFunction(Xval_aug, self.Y_val, theta_t, lambda_ = 0)
+            #theta_t = utils.trainLinearReg2(self.costfunction, X_aug[:i], self.Y_train[:i], lambda_ = lambda_)
+            theta_t = utils.trainLinearReg2(self.costfunction, self.X_train[:i], self.Y_train[:i], lambda_ = lambda_)
+            error_train[i - 1], _ = self.costfunction(theta_t, self.X_train[:i], self.Y_train[:i], lambda_ = 0)
+            error_val[i - 1], _ = self.costfunction(theta_t, self.X_val, self.Y_val, lambda_ = 0)
             
         return error_train, error_val
     def learningCurvePlot(self):
@@ -72,9 +73,9 @@ class evaluateNN():
             X_poly, mu, sigma = self.featureNormalize(X_poly)
             X_poly = np.concatenate([np.ones((self.Y_train.size, 1)), X_poly], axis=1)
 
-            theta_t = utils.trainLinearReg2(self.costFunction, X_poly, self.Y_train, lambda_=lambda_, maxiter=55)
-            error_val[i], _ = self.costFunction(self.X_val, self.Y_val, theta_t, lambda_ = 0)
-            error_train[i], _ = self.costFunction(self.X_train, self.Y_train, theta_t, lambda_ = 0)
+            theta_t = utils.trainLinearReg2(self.costfunction, X_poly, self.Y_train, lambda_=lambda_, maxiter=55)
+            error_val[i], _ = self.costfunction(theta_t, self.X_val, self.Y_val, lambda_ = 0)
+            error_train[i], _ = self.costfunction(theta_t, self.X_train, self.Y_train, lambda_ = 0)
 
             if (error_val[i] >= cur_error):
                 pol_ideal = pol_vec[i]
@@ -105,9 +106,9 @@ class evaluateNN():
         lambda_ideal = 1
         for i in range(len(lambda_vec)):
             lambda_try = lambda_vec[i]
-            theta_t = utils.trainLinearReg2(self.costFunction, self.X_train, self.Y_train, lambda_ = lambda_try)
-            error_train[i], _ = self.costFunction(self.X_train, self.Y_train, theta_t, lambda_ = 0)
-            error_val[i], _ = self.costFunction(self.X_val, self.y_val, theta_t, lambda_ = 0)
+            theta_t = utils.trainLinearReg2(self.costfunction, self.X_train, self.Y_train, lambda_ = lambda_try)
+            error_train[i], _ = self.costfunction(theta_t, self.X_train, self.Y_train, lambda_ = 0)
+            error_val[i], _ = self.costfunction(theta_t, self.X_val, self.Y_val, lambda_ = 0)
             #choose lambda with min(error_val)
             if (error_val[i] >= cur_error):
                 lambda_ideal = lambda_vec[i]
@@ -125,8 +126,8 @@ class evaluateNN():
 
     #calculate test-error (evaluate model on a test set that was not used in any part of training)
     def testError(self, lambda_ideal):
-        theta_t = utils.trainLinearReg2(self.costFunction, self.X_train, self.Y_train, lambda_ = lambda_ideal)
-        error_test = self.costFunction(self.X_test, self.Y_test, theta_t, lambda_ = 0)
+        theta_t = utils.trainLinearReg2(self.costfunction, self.X_train, self.Y_train, lambda_ = lambda_ideal)
+        error_test = self.costfunction(theta_t, self.X_test, self.Y_test, lambda_ = 0)
 
         return error_test
 

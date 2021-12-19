@@ -37,19 +37,21 @@ def trainLinearReg(linearRegCostFunction, X, y, lambda_ = 0.0, maxiter=200):
     res = optimize.minimize(costFunction, initial_theta, jac=True, method='TNC', options=options)
     return res.x
 
-def trainLinearReg2(cf, X, y, lambda_ = 0.0, maxiter=200):
+def trainLinearReg2(cf, X, y, lambda_ = 0.0, maxiter=100):
     #random initializaiton of parameters
     initial_nn_params = neural_network.randInitializeWeights()
     
-    print(initial_nn_params.size)
     options = {'maxiter': maxiter}
     #lambda_ = 1
 
-    costFunction = lambda t: cf(X, y, t, lambda_)
-    
+    #costFunction = lambda t: cf(X, y, t, lambda_)
+    def costFunction(initial_nn_params): return neural_network.costfunction(
+    initial_nn_params, X, y, lambda_)
+
     #optimize parameters
     res = optimize.minimize(costFunction,
                             initial_nn_params,
                             jac=True,
                             method='TNC',
                             options=options)
+    return res.x
