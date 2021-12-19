@@ -20,7 +20,7 @@ public class SensorManager : MonoBehaviour {
 			RayPerceptionInput rayPerceptionInput = rayPerceptionSensorComponent3D.GetRayPerceptionInput();
 			string[] values = new string[rayPerceptionInput.Angles.Count];
 			for (int i = 0; i < rayPerceptionInput.Angles.Count; i++) {
-				values[i] = "Ray at angle: " + rayPerceptionInput.Angles[i];
+				values[i] = rayPerceptionInput.Angles[i] + "°";
 			}
 			return values;
 		}

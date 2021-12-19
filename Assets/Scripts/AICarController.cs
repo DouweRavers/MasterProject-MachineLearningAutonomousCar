@@ -86,10 +86,11 @@ public class AICarController : MonoBehaviour {
 
 		int messageBufferSize = networkStream.Read(messageBuffer, 0, client.ReceiveBufferSize);
 		string receivedMessage = Encoding.UTF8.GetString(messageBuffer, 0, messageBufferSize);
-
-		if (receivedMessage != null || receivedMessage.Length == 0) {
-			calculatedSteer = float.Parse(receivedMessage.Trim('{', '}').Replace('.', ','));
+		print(receivedMessage);
+		if (receivedMessage != null || receivedMessage.Length != 0) {
+			calculatedSteer = float.Parse(receivedMessage.Trim('{', '}'));//.Replace('.', ','));
+			print(calculatedSteer);
 			return false;
 		} else return true;
 	}
-}
+}	
