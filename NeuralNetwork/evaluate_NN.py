@@ -1,8 +1,11 @@
 import numpy as np
 from matplotlib import pyplot
+from numpy.lib import utils
 from scipy import optimize
 
-class evaluateNN():
+import utils
+
+class EvaluateNN():
     #initialize evaluation neural network
     def __init__(self, X, Y, costFunction):
         self.X = X
@@ -18,18 +21,22 @@ class evaluateNN():
     # Learning curve plots training and cross validation error as a function of training set size (gap indicates high variance, while no gap indicates high bias)
     # !Important: High bias doesn't mean adding more training examples!
     # !Important: adding more training examples could help in case of high variance 
-    def learningCurve(self):
+    def learningCurve(self, lambda_ = 0):
         # Number of training examples
-        m = self.Y.size
+        m = self.Y_train.size
 
-        # You need to return these values correctly
+        #prepare input data
+        X_aug = np.concatenate([np.ones((m, 1)), self.X_train], axis=1)
+        Xval_aug = np.concatenate([np.ones((self.Y_val.size, 1)), self.X_val], axis=1)
+
+        # prepare output data
         error_train = np.zeros(m)
         error_val   = np.zeros(m)
 
         for i in range(1, m + 1):
-            theta_t = self.trainLinearReg(self.costFunction, self.X_train[:i], self.Y_train[:i], lambda_ = 0)
-            error_train[i - 1], _ = self.costFunction(self.X_train[:i], self.Y_train[:i], theta_t, lambda_ = 0)
-            error_val[i - 1], _ = self.costFuntion(self.X_val, self.Y_val, theta_t, lambda_ = 0)
+            theta_t = utils.trainLinearReg(self.costFunction, X_aug[:i], self.Y_train[:i], lambda_ = lambda_)
+            error_train[i - 1], _ = self.costFunction(X_aug[:i], self.Y_train[:i], theta_t, lambda_ = 0)
+            error_val[i - 1], _ = self.costFunction(Xval_aug, self.Y_val, theta_t, lambda_ = 0)
             
         return error_train, error_val
     def learningCurvePlot(self):
@@ -148,7 +155,7 @@ class evaluateNN():
         return X_poly
 
     #find theta parameter
-    def trainLinearReg(linearRegCostFunction, X, y, lambda_=0.0, maxiter=200):
+    def trainLinearReg(linearRegCostFunction, X, y, lambda_ = 0.0, maxiter=200):
         # Initialize Theta
         initial_theta = np.zeros(X.shape[1])
 
