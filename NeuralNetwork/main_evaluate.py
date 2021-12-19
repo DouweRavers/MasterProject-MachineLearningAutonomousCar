@@ -4,7 +4,7 @@ import csv
 from scipy import optimize
 
 import neural_network as nn
-import evaluate_NN as enn
+import evaluate_NN
 
 neural_network = nn.NeuralNetwork(21, 10, 1)
 
@@ -41,6 +41,6 @@ res = optimize.minimize(costFunction,
 
 
 #start evaluating
-evaluator = enn.EvaluateNN(X, Y, nn.costFunction)
+evaluator = evaluate_NN.evaluateNN(X, Y, neural_network.costfunction)
 
 evaluator.learningCurvePlot()

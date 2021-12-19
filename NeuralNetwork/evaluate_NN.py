@@ -4,18 +4,18 @@ from numpy.lib import utils
 from scipy import optimize
 
 import utils
+import neural_network 
 
-class EvaluateNN():
+class evaluateNN():
     #initialize evaluation neural network
-    def __init__(self, X, Y, costFunction):
+    def __init__(self, X, Y, costfunction):
         self.X = X
-        np.random.shuffle(X)
         self.X_train, self.X_test, self.X_val = np.split(X, [int(0.6*len(X)),int(0.8*len(X))])
+        
         self.Y = Y
-        np.random.shuffle(Y)
         self.Y_train, self.Y_test, self.Y_val = np.split(Y, [int(0.6*len(X)),int(0.8*len(X))])
 
-        self.costFunction = costFunction
+        self.costfunction = costfunction
 
     # Detect Bias-variance: 
     # Learning curve plots training and cross validation error as a function of training set size (gap indicates high variance, while no gap indicates high bias)
@@ -29,12 +29,15 @@ class EvaluateNN():
         X_aug = np.concatenate([np.ones((m, 1)), self.X_train], axis=1)
         Xval_aug = np.concatenate([np.ones((self.Y_val.size, 1)), self.X_val], axis=1)
 
+        initial_nn_params = np.zeros(self.X_train.shape[1])
+
+
         # prepare output data
         error_train = np.zeros(m)
         error_val   = np.zeros(m)
 
         for i in range(1, m + 1):
-            theta_t = utils.trainLinearReg2(self.costFunction, X_aug[:i], self.Y_train[:i], lambda_ = lambda_)
+            theta_t = utils.trainLinearReg2(self.costfunction, X_aug[:i], self.Y_train[:i], lambda_ = lambda_)
             error_train[i - 1], _ = self.costFunction(X_aug[:i], self.Y_train[:i], theta_t, lambda_ = 0)
             error_val[i - 1], _ = self.costFunction(Xval_aug, self.Y_val, theta_t, lambda_ = 0)
             
