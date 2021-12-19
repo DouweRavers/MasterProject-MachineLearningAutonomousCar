@@ -1,7 +1,7 @@
 import numpy as np
 from scipy import optimize
 
-import neural_network as nn
+import NeuralNetwork as nn
 
 neural_network = nn.NeuralNetwork(21, 10, 1)
 
