@@ -1,0 +1,4 @@
+ - Create Train - Validation - test sets
+ - Diagnose for Bias and Variance
+ - plot testing curves
+
