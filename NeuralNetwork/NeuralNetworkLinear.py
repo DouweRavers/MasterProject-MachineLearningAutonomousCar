@@ -47,7 +47,10 @@ class NeuralNetworkLinear:
 
         theta2 = np.reshape(nn_params[(self.hidden_layer_size_alpha * (self.input_layer_size + 1)):],
                             (self.num_labels, (self.hidden_layer_size_alpha + 1)))
-        a1 = np.concatenate([np.ones((m, 1)), X], axis=1)
+        
+        #X: 28922, 1; y: 28922, 1
+        a1 = np.concatenate([np.ones((m, 1)), X], axis=1) 
+        #a1: 28922, 22; theta: 10, 2
         z2 = np.matmul(a1, theta1.transpose())
         a2 = np.concatenate([np.ones((m, 1)), z2],  axis=1)
         z3 = np.matmul(a2, theta2.transpose())

@@ -23,7 +23,7 @@ algorithm.ShowLearningCurve(X, Y, print_process)
 # outputting linear values also inbetween left, center and right, center
 # Thus we redesigned the neural network to be a linear one
 # The result was even more impactfull as we though
-# We went from a high bias of 60% to a ?low bias or what is this? of 0.6% 
+# We went from a high bias of 60% to a ?low bias or what is this? of 0.6%. Still High bias I think
 # Also we see that the curve converges at 400 meaning that 500/0.6 = 830 ~= 900 is enough data to get good results
 # ================
 neural_network_linear = nnlin.NeuralNetworkLinear(input_layer_size=21, hidden_layer_size_alpha=10, num_labels=1)
@@ -57,3 +57,14 @@ algorithm.ShowDataSetStats(X, Y, print_process)
 # 
 # ================
 
+# ================
+# Adding polynomial features
+# ================
+X, Y = algorithm.loadData(print_process=print_process, limit_on_load=False, limiter=2000)
+algorithm.ShowPolynomialCurve(X, Y, print_process)
+
+# ================
+# lambda
+# ================
+X, Y = algorithm.loadData(print_process=print_process, limit_on_load=False, limiter=2000)
+algorithm.ShowValidationCurve(X, Y, print_process)
