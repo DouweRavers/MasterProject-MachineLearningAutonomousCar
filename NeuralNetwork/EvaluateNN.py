@@ -102,13 +102,45 @@ class EvaluateNN():
         plt.axis([sizes[0], sizes[-1], 0, performance.max()])
         plt.show()
     
-    def skewedAnalysis(self, X, Y, print_process=False):
-        X_train, Y_train, X_test, Y_test, X_val, Y_val = self.splitDataSet(X, Y, print_process)
+    def datasetAnalysis(self, X, Y, print_process=False):
         non_half_percentage = len(Y[Y != 0.5]) / len(Y) * 100
         half_percentage = len(Y[Y == 0.5]) / len(Y) * 100
         if print_process: print("=========== Actual message ===========\n")
         print("Procentage half values: ", round(half_percentage, 2),"% and thus ", round(non_half_percentage, 2), "% non-half values, half means idle steering, no left no right.")
         if print_process: print("\n=========== End of message ===========")
+    
+    def datasetAndPredictionVisualtization(self, X, Y, print_process=False):
+        if print_process: print("Learn parameters for full dataset...")
+        nn_params = self.neural_network.learnByGradientDecent(X, Y, 0)
+        if print_process: print("Learning succesfull!")
+        X_reduced = X[:1000,:]
+        Y_reduced = Y[:1000]
+        if print_process: print("Predict output of subset of ", len(Y), " random values")
+        P = self.neural_network.predict(nn_params, X_reduced)
+        if print_process: print("With error of ", round(self.neural_network.costfunction(nn_params, X, Y)[0], 2))
+        if print_process: print("Reduce dimensions of X to 2 for plotting...")
+        m = len(Y)
+        Sigma = 1/m * np.matmul(X.transpose(), X)
+        U, S, V = np.linalg.svd(Sigma)
+        Ureduce = U[:,:2]
+        Z = np.matmul(X_reduced, Ureduce)
+        if print_process: print("Compression succesfull!")
+        self._plotReduced(Z, Y_reduced, P, 'Dataset vs predictions on compressed features')
+        
+        
+    def _plotReduced(self, Z, Y, P, title):
+        fig = plt.figure()
+        ax = plt.axes(projection ='3d')
+        ax.scatter(Z[:,0], Z[:,1], Y, 'b')
+        ax.scatter(Z[:,0], Z[:,1], P, 'r')
+        ax.set_title('Plot')
+        ax.set_xlabel("Z_0")
+        ax.set_ylabel("Z_1")
+        ax.set_zlabel("Y")
+        ax.set_title(title)
+        ax.legend(['Dataset', 'Prediction'])
+        plt.show() 
+
     
     def errorAmountFeatures(self, X_train, Y_train, X_val, Y_val, sizes=np.arange(0, 30), Linear = True, print_process=False):
         pass

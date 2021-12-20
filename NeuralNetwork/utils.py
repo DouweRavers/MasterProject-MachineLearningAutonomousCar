@@ -1,4 +1,5 @@
 import numpy as np
+import math
 from scipy import optimize
 
 import NeuralNetworkLogistic as nn
@@ -15,10 +16,10 @@ def featureNormalize(X):
     return X_norm
 
 def polyFeatures(X, p):
-    X_poly = np.zeros((X.shape[0], p))
+    X_poly = np.zeros((X.shape[0], X.shape[1] * p))
 
-    for i in range(p):
-        X_poly[:, i] = X[:, 0] ** (i + 1)
+    for i in range(X.shape[1] * p):
+        X_poly[:, i] = X[:, math.floor(i / p)] ** (i % p + 1)
 
     return X_poly
 

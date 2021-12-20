@@ -43,11 +43,8 @@ class Algorithms:
         if print_process: print("Start player AI...")
         while True:
             sensor_values = unity_connection.request_sensor_values()
-            print(sensor_values)
             steering_value = self.neural_network.predict(nn_params, sensor_values)
-            print("raw value: ", float(steering_value))
             steering_value = 2 * (float(steering_value) - 0.5)
-            print("send value: ",steering_value)
             unity_connection.send_steering_value(float(steering_value))
             time.sleep(0.016)
 
@@ -64,5 +61,12 @@ class Algorithms:
     
     def ShowDataSetStats(self, X, Y, print_process = False):
         evaluator = ev.EvaluateNN(self.neural_network)
-        evaluator.skewedAnalysis(X, Y, print_process)
-        
+        evaluator.datasetAnalysis(X, Y, print_process)    
+        evaluator.datasetAndPredictionVisualtization(X, Y, print_process)
+        X_no_halves = X[Y != 0.5]
+        Y_no_halves = Y[Y != 0.5]
+        evaluator.datasetAndPredictionVisualtization(X_no_halves, Y_no_halves, print_process)
+        X_halves = X[Y == 0.5]
+        Y_halves = Y[Y == 0.5]
+        evaluator.datasetAndPredictionVisualtization(X_halves, Y_halves, print_process)
+         

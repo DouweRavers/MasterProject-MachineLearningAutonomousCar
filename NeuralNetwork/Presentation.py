@@ -42,18 +42,22 @@ X, Y = algorithm.loadData(print_process=print_process, limit_on_load=False, limi
 algorithm.ShowHiddenLayerStats(X, Y, print_process)
 neural_network_linear = nnlin.NeuralNetworkLinear(input_layer_size=21, hidden_layer_size_alpha=5, num_labels=1)
 algorithm = al.Algorithms(neural_network_linear)
+
+
+	
+
 # ================
 # Now we know the error is very low but the question still arises. Is this because the of skewed data or not.
 # One argument is already dat in linear regression there are no false positives or false negatives just errors.
 # This means the error actually always represents a good estimate even if only few cases of interest occur.
 # When using the logistic neural network we saw that the car almost never just drove forward, but instead kept
 # turning left and right very quickly. This also explains the high error yet possible still finishing the course.
+# 
 # To check if driving forward is rare we will check the data on non 0.5 values. which means slightly going right or left.
+# 
+# 
+# 
 # ================
 X, Y = algorithm.loadData(print_process=print_process)
 algorithm.ShowDataSetStats(X, Y, print_process)
-# ================
-# heb predict gemaakt 
-# 
-# ================
 
