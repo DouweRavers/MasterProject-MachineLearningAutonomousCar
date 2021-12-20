@@ -286,31 +286,6 @@ class EvaluateNN():
         pyplot.ylabel('Error')
             
 
-    # Depending on bias-variance -> higher or lower regularisation term
-    # F.e. High bias -> lower regularisation term
-    def validationCurve(self):
-        # Selected values of lambda (you should not change this)
-        lambda_vec = [0, 0.01, 0.02, 0.04, 0.08, 0.16, 0.32, 0.64, 1.28, 2.56, 5.12, 10]
-
-        # You need to return these variables correctly.
-        error_train = np.zeros(len(lambda_vec))
-        error_val = np.zeros(len(lambda_vec))
-
-
-        cur_error = 0
-        lambda_ideal = 1
-        for i in range(len(lambda_vec)):
-            lambda_try = lambda_vec[i]
-            theta_t = utils.trainLinearReg2(self.costfunction, self.X_train, self.Y_train, lambda_ = lambda_try)
-            error_train[i], _ = self.costfunction(theta_t, self.X_train, self.Y_train, lambda_ = 0)
-            error_val[i], _ = self.costfunction(theta_t, self.X_val, self.Y_val, lambda_ = 0)
-            #choose lambda with min(error_val)
-            if (error_val[i] >= cur_error):
-                lambda_ideal = lambda_vec[i]
-                cur_error = error_val[i]
-
-        return lambda_vec, error_train, error_val, lambda_ideal
-
     def validationCurvePlot2(self):
         lambda_vec, error_train, error_val, _ = self.validationCurve(self.X, self.Y, self.X_val, self.Y_val)
 

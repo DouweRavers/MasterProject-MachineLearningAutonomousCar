@@ -1,7 +1,6 @@
 import numpy as np
 import math
 from scipy import optimize
-from sklearn.preprocessing import PolynomialFeatures
 
 import NeuralNetworkLogistic as nn
 
@@ -15,20 +14,6 @@ def featureNormalize(X):
     sigma = np.std(X_norm, axis=0, ddof=1)
     X_norm /= sigma
     return X_norm
-
-def polyFeatures2(X, p):
-    poly = PolynomialFeatures(p)
-    X_poly = poly.fit_transform(X)
-    
-    return X_poly
-
-def polyFeatures3(X, p): #X_train 28922, 21
-    X_poly = np.zeros((X.shape[0], p)) #21,1
-
-    for i in range(X.shape[1] * p):
-        X_poly[:, i] = X[:, math.floor(i / p)] ** (i % p + 1)
-
-    return X_poly 
 
 def polyFeatures(X, p): 
     X_poly = np.zeros((X.shape[0], X.shape[1] * p)) 

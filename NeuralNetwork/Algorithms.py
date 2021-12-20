@@ -72,7 +72,6 @@ class Algorithms:
         X_halves = X[Y == 0.5]
         Y_halves = Y[Y == 0.5]
         evaluator.datasetAndPredictionVisualtization(X_halves, Y_halves, print_process)
-        evaluator.skewedAnalysis(X, Y, print_process)
         
     def ShowPolynomialCurve(self, X, Y, print_process = False):
         evaluator = ev.EvaluateNN(self.neural_network)
