@@ -26,7 +26,8 @@ class NeuralNetworkLinear:
 
         theta2 = np.reshape(nn_params[(self.hidden_layer_size_alpha * (self.input_layer_size + 1)):],
                             (self.num_labels, (self.hidden_layer_size_alpha + 1)))
-
+        if not isinstance(X, np.ndarray):
+            X = np.array(X).reshape(1, len(X))
         m = X.shape[0]
         a_1 = np.concatenate([np.ones((m, 1)), X], axis=1)
         z_2 = np.matmul(a_1, theta1.transpose())
@@ -34,6 +35,7 @@ class NeuralNetworkLinear:
         z_3 = np.matmul(a_2, theta2.transpose())
         a_3 = z_3
         return a_3
+
 
     def costfunction(self, nn_params,
                      X, y, lambda_=0.0):
@@ -51,8 +53,9 @@ class NeuralNetworkLinear:
         z3 = np.matmul(a2, theta2.transpose())
         a3 = z3
         
-        J = 1/(2*m) * np.sum(pow(a3 - y, 2)) + (lambda_/(2*m)) * \
-            (np.sum(pow(theta1[:, 1:], 2)) + np.sum(pow(theta2[:, 1:], 2)))
+        J = 1/(2*m) * np.sum(pow(a3 - y, 2))
+        # + (lambda_/(2*m)) * \
+        #     (np.sum(pow(theta1[:, 1:], 2)) + np.sum(pow(theta2[:, 1:], 2)))
         
         
         delta3 = a3 - y

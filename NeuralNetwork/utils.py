@@ -3,7 +3,7 @@ from scipy import optimize
 
 import NeuralNetworkLogistic as nn
 
-neural_network = nn.NeuralNetwork(21, 10, 1)
+neural_network = nn.NeuralNetworkLogistic(21, 10, 1)
 
 #other help functions
 def featureNormalize(X):

@@ -1,5 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import time as t
+import NeuralNetworkLinear as nnlin
+import NeuralNetworkLogistic as nnlog
 
 # for old code
 from numpy.lib import utils
@@ -28,8 +31,8 @@ class EvaluateNN():
             x_train = X_train[:sample_sizes_array[i],:]
             y_train = Y_train[:sample_sizes_array[i]]
             nn_params = self.neural_network.learnByGradientDecent(x_train, y_train, lambda_, print_process=False)
-            error_train[i-1], _ = self.neural_network.costfunction(nn_params, x_train, y_train)
-            error_val[i-1], _ = self.neural_network.costfunction(nn_params, X_val, Y_val)
+            error_train[i], _ = self.neural_network.costfunction(nn_params, x_train, y_train)
+            error_val[i], _ = self.neural_network.costfunction(nn_params, X_val, Y_val)
         if print_process: print("Finished data generation!")
         return error_train, error_val, sample_sizes_array
 
@@ -41,8 +44,111 @@ class EvaluateNN():
         plt.legend(['Train', 'Cross Validation'])
         plt.xlabel('Number of training examples')
         plt.ylabel('Error')
-        plt.axis([0, m, 0, 1])
+        plt.axis([0, m, 0, error_train.max() if error_train.max() > error_val.max() else error_val.max()])
         plt.show()
+        
+    # Checking the error in respect of the number of hidden layers
+    def errorHiddenLayersCurve(self, X_train, Y_train, X_val, Y_val, sizes=np.arange(5, 15), Linear = True, print_process=False):
+        error_val = np.zeros(sizes.shape)
+        error_train = np.zeros(sizes.shape)
+        if print_process: print("Generate data for hidden layer size curve...")
+        for i in range(len(sizes)):
+            layer_size = sizes[i]
+            if Linear:
+                neural_network = nnlin.NeuralNetworkLinear(input_layer_size=21, hidden_layer_size_alpha=layer_size, num_labels=1)
+            else:
+                neural_network = nnlog.NeuralNetworkLogistic(input_layer_size=21, hidden_layer_size_alpha=layer_size, num_labels=1)
+            
+            nn_params = neural_network.learnByGradientDecent(X_train, Y_train, 0, print_process=False)
+            error_train[i], _ = neural_network.costfunction(nn_params, X_train, Y_train)
+            error_val[i], _ = neural_network.costfunction(nn_params, X_val, Y_val)
+        if print_process: print("Finished data generation!")
+        return error_train, error_val
+        
+    def errorHiddenLayersPlot(self, X_train, Y_train, X_val, Y_val, print_process=False):
+        sizes=np.arange(1, 50)
+        error_train, error_val = self.errorHiddenLayersCurve(X_train, Y_train, X_val, Y_val, sizes, print_process)
+        plt.plot(sizes, error_train, sizes, error_val, lw=2)
+        plt.title('Hidden layer error for neural network')
+        plt.legend(['Train', 'Cross Validation'])
+        plt.xlabel('Number of elements in hidden layer')
+        plt.ylabel('Error')
+        plt.axis([sizes[0], sizes[-1], 0, error_train.max() if error_train.max() > error_val.max() else error_val.max()])
+        plt.show()
+    
+    # Checking the error in respect of the number of hidden layers
+    def performanceHiddenLayersCurve(self, X_train, Y_train, sizes=np.arange(5, 15), Linear = True, print_process=False):
+        performance = np.zeros(sizes.shape)
+        if print_process: print("Measure speed of network training...")
+        for i in range(len(sizes)):
+            layer_size = sizes[i]
+            if Linear:
+                neural_network = nnlin.NeuralNetworkLinear(input_layer_size=21, hidden_layer_size_alpha=layer_size, num_labels=1)
+            else:
+                neural_network = nnlog.NeuralNetworkLogistic(input_layer_size=21, hidden_layer_size_alpha=layer_size, num_labels=1)
+            before = t.time()
+            neural_network.learnByGradientDecent(X_train, Y_train, 0, print_process=False)
+            performance[i] = t.time() - before
+        if print_process: print("Finished measuring!")
+        return performance
+        
+    def performanceHiddenLayersPlot(self, X_train, Y_train, print_process=False):
+        sizes=np.arange(1, 50)
+        performance = self.performanceHiddenLayersCurve(X_train, Y_train, sizes, print_process)
+        plt.plot(sizes, performance)
+        plt.title('Hidden layer performance for neural network')
+        plt.xlabel('Number of elements in hidden layer')
+        plt.ylabel('Performance')
+        plt.axis([sizes[0], sizes[-1], 0, performance.max()])
+        plt.show()
+    
+    def skewedAnalysis(self, X, Y, print_process=False):
+        X_train, Y_train, X_test, Y_test, X_val, Y_val = self.splitDataSet(X, Y, print_process)
+        non_half_percentage = len(Y[Y != 0.5]) / len(Y) * 100
+        half_percentage = len(Y[Y == 0.5]) / len(Y) * 100
+        if print_process: print("=========== Actual message ===========\n")
+        print("Procentage half values: ", round(half_percentage, 2),"% and thus ", round(non_half_percentage, 2), "% non-half values, half means idle steering, no left no right.")
+        if print_process: print("\n=========== End of message ===========")
+    
+    def errorAmountFeatures(self, X_train, Y_train, X_val, Y_val, sizes=np.arange(0, 30), Linear = True, print_process=False):
+        pass
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
 # ============================
 # OLD CODE STARTS HERE
 # ============================

@@ -34,6 +34,7 @@ class NeuralNetworkLogistic:
         a_3 = self.sigmoid(z_3)
         return a_3
 
+
     def costfunction(self, nn_params,
                      X, y, lambda_=0.0):
         m = y.size

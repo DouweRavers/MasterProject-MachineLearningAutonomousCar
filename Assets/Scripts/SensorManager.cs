@@ -40,15 +40,4 @@ public class SensorManager : MonoBehaviour {
 	void Start() {
 		rayPerceptionSensorComponent3D = GetComponent<RayPerceptionSensorComponent3D>();
 	}
-
-	// void OnGUI()
-	// {
-	// 	for (int i = 0; i < rayValues.Length; i++)
-	// 	{
-	// 		GUILayout.BeginHorizontal();
-	// 		GUILayout.Label(titles[i]);
-	// 		GUILayout.HorizontalSlider(rayValues[i], 0f, 1f, GUILayout.Width(200));
-	// 		GUILayout.EndHorizontal();
-	// 	}
-	// }
 }

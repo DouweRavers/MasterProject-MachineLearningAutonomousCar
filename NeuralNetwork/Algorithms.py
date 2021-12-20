@@ -43,12 +43,26 @@ class Algorithms:
         if print_process: print("Start player AI...")
         while True:
             sensor_values = unity_connection.request_sensor_values()
+            print(sensor_values)
             steering_value = self.neural_network.predict(nn_params, sensor_values)
-            steering_value = 2 * steering_value[0,0] - 1
-            unity_connection.send_steering_value(steering_value)
-            time.sleep(0.5)
+            print("raw value: ", float(steering_value))
+            steering_value = 2 * (float(steering_value) - 0.5)
+            print("send value: ",steering_value)
+            unity_connection.send_steering_value(float(steering_value))
+            time.sleep(0.016)
 
     def ShowLearningCurve(self, X, Y, lambda_ = 0, print_process = False):
         evaluator = ev.EvaluateNN(self.neural_network)
         X_train, Y_train, X_test, Y_test, X_val, Y_val = evaluator.splitDataSet(X, Y, print_process)
         evaluator.learningCurvePlot(X_train, Y_train, X_val, Y_val, lambda_, print_process)
+  
+    def ShowHiddenLayerStats(self, X, Y, print_process = False):
+        evaluator = ev.EvaluateNN(self.neural_network)
+        X_train, Y_train, X_test, Y_test, X_val, Y_val = evaluator.splitDataSet(X, Y, print_process)
+        evaluator.errorHiddenLayersPlot(X_train, Y_train, X_val, Y_val, print_process)
+        evaluator.performanceHiddenLayersPlot(X_train, Y_train, print_process)
+    
+    def ShowDataSetStats(self, X, Y, print_process = False):
+        evaluator = ev.EvaluateNN(self.neural_network)
+        evaluator.skewedAnalysis(X, Y, print_process)
+        
