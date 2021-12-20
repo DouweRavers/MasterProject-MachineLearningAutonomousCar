@@ -14,7 +14,7 @@ print_process = True
 neural_network_logistic = nnlog.NeuralNetworkLogistic(input_layer_size=21, hidden_layer_size_alpha=10, num_labels=1)
 algorithm = al.Algorithms(neural_network_logistic)
 X, Y = algorithm.loadData(print_process=print_process, limit_on_load=False, limiter=2000)
-# algorithm.ShowLearningCurve(X, Y, print_process)
+algorithm.ShowLearningCurve(X, Y, print_process)
 # ================
 # Based on the data we know a fundamental change to the algorithm had to be made.
 # As we analysed the task that has to be performed better we realised the 
@@ -28,7 +28,7 @@ X, Y = algorithm.loadData(print_process=print_process, limit_on_load=False, limi
 # ================
 neural_network_linear = nnlin.NeuralNetworkLinear(input_layer_size=21, hidden_layer_size_alpha=10, num_labels=1)
 algorithm = al.Algorithms(neural_network_linear)
-# algorithm.ShowLearningCurve(X, Y, print_process=print_process)
+algorithm.ShowLearningCurve(X, Y, print_process=print_process)
 # ================
 # Once we know that the linear network was better suited for the task we checked the next variable of the network.
 # The number of ?elements? in the hidden layer
@@ -39,7 +39,7 @@ algorithm = al.Algorithms(neural_network_linear)
 # 5 appeared a good size  
 # ================
 X, Y = algorithm.loadData(print_process=print_process, limit_on_load=False, limiter=900)
-# algorithm.ShowHiddenLayerStats(X, Y, print_process)
+algorithm.ShowHiddenLayerStats(X, Y, print_process)
 neural_network_linear = nnlin.NeuralNetworkLinear(input_layer_size=21, hidden_layer_size_alpha=5, num_labels=1)
 algorithm = al.Algorithms(neural_network_linear)
 
