@@ -1,11 +1,7 @@
 import csv
-
 import numpy as np
-from numpy.core.arrayprint import array_str
 
-
-class FileIO:
-    def loadDataFile(self, limiter = -1):
+def loadDataFile(limiter = -1):
         data = []
         row_count = 0
         with open('data/data.csv', "r") as csvDataFile:

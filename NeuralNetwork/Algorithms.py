@@ -3,18 +3,17 @@ import numpy as np
 import time
 
 # objects
-import NeuralNetwork as nn
 import FileIO as io
 import UnityConnector as uc
 import EvaluateNN as ev
 
 class Algorithms:
-    def __init__(self):
-        self.neural_network = nn.NeuralNetwork(21, 10, 1)
+    def __init__(self, neural_network):
+        self.neural_network = neural_network 
 
     def loadData(self, print_process = False, limiter = -1, limit_on_load = True):
         if print_process: print("Reading data from file...")
-        X , Y = io.FileIO().loadDataFile(limiter if limit_on_load else -1)
+        X , Y = io.loadDataFile(limiter if limit_on_load else -1)
         if not limit_on_load:
             X = X[:limiter,:]
             Y = Y[:limiter]

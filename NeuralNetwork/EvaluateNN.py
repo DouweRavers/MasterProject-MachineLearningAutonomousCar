@@ -1,15 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from numpy.lib.function_base import iterable
 
-import NeuralNetwork as nn
-
-
-
+# for old code
 from numpy.lib import utils
-from scipy import optimize
-from scipy.linalg.decomp_svd import null_space
-
 import utils
 
 class EvaluateNN():
@@ -23,7 +16,8 @@ class EvaluateNN():
         Y_train, Y_test, Y_val = np.split(Y, [int(0.6*len(X)),int(0.8*len(X))])
         if print_process: print("Splitting complete!")
         return X_train, Y_train, X_test, Y_test, X_val, Y_val
-
+    
+    # Evaluate the error in respect of the number of data points
     def learningCurve(self, X_train, Y_train, X_val, Y_val, lambda_ = 0, print_process=False):
         m = Y_train.size
         sample_sizes_array = np.arange(1, m+1, 1 if m < 1000 else int(m / 100))
@@ -49,6 +43,9 @@ class EvaluateNN():
         plt.ylabel('Error')
         plt.axis([0, m, 0, 1])
         plt.show()
+# ============================
+# OLD CODE STARTS HERE
+# ============================
 
 
     # Depending on bias-variance -> adding more or less features

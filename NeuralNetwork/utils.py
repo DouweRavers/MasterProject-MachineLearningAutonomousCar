@@ -1,7 +1,7 @@
 import numpy as np
 from scipy import optimize
 
-import NeuralNetwork as nn
+import NeuralNetworkLogistic as nn
 
 neural_network = nn.NeuralNetwork(21, 10, 1)
 
