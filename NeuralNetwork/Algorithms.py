@@ -11,12 +11,15 @@ class Algorithms:
     def __init__(self, neural_network):
         self.neural_network = neural_network 
 
-    def loadData(self, print_process = False, limiter = -1, limit_on_load = True):
+    def loadData(self, print_process = False, limiter = -1, limit_on_load = True, skip = 0):
         if print_process: print("Reading data from file...")
         X , Y = io.loadDataFile(limiter if limit_on_load else -1)
         if not limit_on_load:
             X = X[:limiter,:]
             Y = Y[:limiter]
+        for i in range(skip):
+            print([17-i*4, 18-i*4])
+            X = np.delete(X, [17-i*4, 18-i*4], axis = 1)
         if print_process: print("Data read succesfully!")
         return X, Y
 
@@ -69,4 +72,14 @@ class Algorithms:
         X_halves = X[Y == 0.5]
         Y_halves = Y[Y == 0.5]
         evaluator.datasetAndPredictionVisualtization(X_halves, Y_halves, print_process)
-         
+        evaluator.skewedAnalysis(X, Y, print_process)
+        
+    def ShowPolynomialCurve(self, X, Y, print_process = False):
+        evaluator = ev.EvaluateNN(self.neural_network)
+        X_train, Y_train, X_test, Y_test, X_val, Y_val = evaluator.splitDataSet(X, Y, print_process)
+        evaluator.polynomialCurvePlot(X_train, Y_train, X_val, Y_val, print_process)
+        
+    def ShowValidationCurve(self, X, Y, print_process = False):
+        evaluator = ev.EvaluateNN(self.neural_network)
+        X_train, Y_train, X_test, Y_test, X_val, Y_val = evaluator.splitDataSet(X, Y, print_process)
+        evaluator.validationCurvePlot(X_train, Y_train, X_val, Y_val, print_process)

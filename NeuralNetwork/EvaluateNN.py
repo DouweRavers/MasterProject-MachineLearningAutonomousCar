@@ -106,7 +106,7 @@ class EvaluateNN():
         non_half_percentage = len(Y[Y != 0.5]) / len(Y) * 100
         half_percentage = len(Y[Y == 0.5]) / len(Y) * 100
         if print_process: print("=========== Actual message ===========\n")
-        print("Procentage half values: ", round(half_percentage, 2),"% and thus ", round(non_half_percentage, 2), "% non-half values, half means idle steering, no left no right.")
+        print("percentage half values: ", round(half_percentage, 2),"% and thus ", round(non_half_percentage, 2), "% non-half values, half means idle steering, no left no right.")
         if print_process: print("\n=========== End of message ===========")
     
     def datasetAndPredictionVisualtization(self, X, Y, print_process=False):
@@ -145,8 +145,72 @@ class EvaluateNN():
     def errorAmountFeatures(self, X_train, Y_train, X_val, Y_val, sizes=np.arange(0, 30), Linear = True, print_process=False):
         pass
 
+
+   
+    def errorPolynomialCurve(self, X_train, Y_train, X_val, Y_val, Linear = True, print_process=False):
+        pol_vec = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        
+        error_val = np.zeros(len(pol_vec))
+        error_train = np.zeros(len(pol_vec))
+        if print_process: print("Generate data for polynomial curve...")
+        for p in range(len(pol_vec)):
+            cur_p = pol_vec[p]
+            X_poly = utils.polyFeatures(X_train, cur_p)
+            #X_poly = utils.featureNormalize(X_poly)
+            X_poly_val = utils.polyFeatures(X_val, cur_p)
+            #X_poly_val = utils.featureNormalize(X_poly_val)
+            #X_poly = np.concatenate([np.ones((Y_train.size, 1)), X_poly], axis=1)
+
+            if Linear:
+                neural_network = nnlin.NeuralNetworkLinear(input_layer_size=X_poly.shape[1], hidden_layer_size_alpha=10, num_labels=1)
+            else:
+                neural_network = nnlog.NeuralNetworkLogistic(input_layer_size=X_poly.shape[1], hidden_layer_size_alpha=10, num_labels=1)
+            
+            nn_params = neural_network.learnByGradientDecent(X_poly, Y_train, 0, print_process=False)
+            error_train[p], _ = neural_network.costfunction(nn_params, X_poly, Y_train)
+            error_val[p], _ = neural_network.costfunction(nn_params, X_poly_val, Y_val)
+            print(p, "success")
+        if print_process: print("Finished data generation!")
+        return pol_vec, error_train, error_val
+
+    def polynomialCurvePlot(self, X_train, Y_train, X_val, Y_val, print_process=False):
+        pol_vec, error_val, error_train = self.errorPolynomialCurve(X_train, Y_train, X_val, Y_val, print_process)
+
+        plt.plot(pol_vec, error_train, '-o', pol_vec, error_val, '-o', lw=2)
+        plt.legend(['Train', 'Cross Validation'])
+        plt.xlabel('lambda')
+        plt.ylabel('Error')
+        plt.show()
+
     
-    
+
+    def validationCurve(self, X_train, Y_train, X_val, Y_val, Linear = True, print_process=False):
+        lambda_vec = [0, 0.01, 0.02, 0.04, 0.08, 0.16, 0.32, 0.64, 1.28, 2.56, 5.12, 10]
+
+        error_train = np.zeros(len(lambda_vec))
+        error_val = np.zeros(len(lambda_vec))
+
+        for i in range(len(lambda_vec)):
+            lambda_try = lambda_vec[i]
+            if Linear:
+                neural_network = nnlin.NeuralNetworkLinear(input_layer_size=21, hidden_layer_size_alpha=10, num_labels=1)
+            else:
+                neural_network = nnlog.NeuralNetworkLogistic(input_layer_size=21, hidden_layer_size_alpha=10, num_labels=1)
+
+            nn_params = neural_network.learnByGradientDecent(X_train, Y_train, lambda_try, print_process=False)
+            error_train[i], _ = neural_network.costfunction(nn_params, X_train, Y_train)
+            error_val[i], _ = neural_network.costfunction(nn_params, X_val, Y_val)
+
+        return lambda_vec, error_train, error_val
+
+    def validationCurvePlot(self, X_train, Y_train, X_val, Y_val, print_process=False):
+        lambda_vec, error_train, error_val = self.validationCurve(X_train, Y_train, X_val, Y_val, print_process)
+
+        plt.plot(lambda_vec, error_train, '-o', lambda_vec, error_val, '-o', lw=2)
+        plt.legend(['Train', 'Cross Validation'])
+        plt.xlabel('lambda')
+        plt.ylabel('Error')
+        plt.show()
     
     
     
@@ -247,7 +311,7 @@ class EvaluateNN():
 
         return lambda_vec, error_train, error_val, lambda_ideal
 
-    def validationCurvePlot(self):
+    def validationCurvePlot2(self):
         lambda_vec, error_train, error_val, _ = self.validationCurve(self.X, self.Y, self.X_val, self.Y_val)
 
         pyplot.plot(lambda_vec, error_train, '-o', lambda_vec, error_val, '-o', lw=2)
