@@ -20,19 +20,21 @@ class NeuralNetworkLogistic:
         self.num_labels = num_labels
 
     def predict(self, nn_params, X):
+        if not isinstance(X, np.ndarray):
+            X = np.array(X).reshape(1, len(X))
+        m = X.shape[0]
         theta1 = np.reshape(nn_params[:self.hidden_layer_size_alpha * (self.input_layer_size + 1)],
                             (self.hidden_layer_size_alpha, (self.input_layer_size + 1)))
 
         theta2 = np.reshape(nn_params[(self.hidden_layer_size_alpha * (self.input_layer_size + 1)):],
                             (self.num_labels, (self.hidden_layer_size_alpha + 1)))
 
-        m = X.shape[0]
-        a_1 = np.concatenate([np.ones((m, 1)), X], axis=1)
-        z_2 = np.matmul(a_1, theta1.transpose())
-        a_2 = np.concatenate([np.ones((m, 1)), self.sigmoid(z_2)], axis=1)
-        z_3 = np.matmul(a_2, theta2.transpose())
-        a_3 = self.sigmoid(z_3)
-        return a_3
+        a1 = np.concatenate([np.ones((m, 1)), X], axis=1)
+        z2 = np.matmul(a1, theta1.transpose())
+        a2 = np.concatenate([np.ones((m, 1)), self.sigmoid(z2)],  axis=1)
+        z3 = np.matmul(a2, theta2.transpose())
+        a3 = self.sigmoid(z3)
+        return a3
 
 
     def costfunction(self, nn_params,
@@ -51,7 +53,7 @@ class NeuralNetworkLogistic:
         a2 = np.concatenate([np.ones((m, 1)), self.sigmoid(z2)],  axis=1)
         z3 = np.matmul(a2, theta2.transpose())
         a3 = self.sigmoid(z3)
-
+        
         J = np.sum(y*np.log(a3)+(1-y)*np.log(1-a3))/(-m) + (lambda_/(2*m)) * \
             (np.sum(pow(theta1[:, 1:], 2)) + np.sum(pow(theta2[:, 1:], 2)))
 

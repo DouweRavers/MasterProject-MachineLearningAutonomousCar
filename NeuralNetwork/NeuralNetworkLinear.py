@@ -21,14 +21,16 @@ class NeuralNetworkLinear:
         self.num_labels = num_labels
 
     def predict(self, nn_params, X):
+        if not isinstance(X, np.ndarray):
+            X = np.array(X).reshape(1, len(X))
+        m = X.shape[0]
+        
         theta1 = np.reshape(nn_params[:self.hidden_layer_size_alpha * (self.input_layer_size + 1)],
                             (self.hidden_layer_size_alpha, (self.input_layer_size + 1)))
 
         theta2 = np.reshape(nn_params[(self.hidden_layer_size_alpha * (self.input_layer_size + 1)):],
                             (self.num_labels, (self.hidden_layer_size_alpha + 1)))
-        if not isinstance(X, np.ndarray):
-            X = np.array(X).reshape(1, len(X))
-        m = X.shape[0]
+        
         a_1 = np.concatenate([np.ones((m, 1)), X], axis=1)
         z_2 = np.matmul(a_1, theta1.transpose())
         a_2 = np.concatenate([np.ones((m, 1)), z_2], axis=1)
